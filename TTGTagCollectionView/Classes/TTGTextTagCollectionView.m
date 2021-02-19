@@ -117,11 +117,17 @@
 #pragma mark - GradientLabel
 
 @interface GradientLabel: UILabel
+@property (assign, nonatomic) CGSize extraSpace;
 @end
 
 @implementation GradientLabel
 + (Class)layerClass {
     return [CAGradientLayer class];
+}
+
+- (void)drawTextInRect:(CGRect)rect {
+    UIEdgeInsets insets = UIEdgeInsetsMake(self.extraSpace.height / 2.0, self.extraSpace.width / 2.0, self.extraSpace.height / 2.0, self.extraSpace.width / 2.0);
+    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, insets)];
 }
 @end
 
@@ -231,6 +237,7 @@
     frame.size = finalSize;
     self.frame = frame;
     _label.frame = self.bounds;
+    _label.extraSpace = self.config.extraSpace;
 }
 
 - (void)updateShadowWithPath:(UIBezierPath *)path {
